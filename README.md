@@ -22,6 +22,8 @@ Q. What's up with this?
 <br/>
 
 Q. Declaring multiple variables at once, var vs shorthand way := in Go and any limitations
+:= is only used for declaring a new variable, not assigning to an existing one.
+= is only used for assigning to a EXISTING variable brother.
 Hovering over shorthand ones in VS code gives you hint
 <br/>
 
@@ -29,4 +31,88 @@ Q. Are string mutable or immutable in Go
 Q. Println vs Printf
 Q. Go if and else else should some where if } ends
 Q. Does Go insert ; ?
-Q. Arrays vs Slices in Go
+Q. Arrays vs Slices in Go, arrays are fixed size, but slices are dynamic size
+
+<details open>
+  <summary>Use of capacity in slice in Go</summary>
+  When you write:
+
+```go
+make([]int, 0, 5)
+```
+
+you’re creating a **slice**, not an array. It has:
+
+* **length = 0**
+* **capacity = 5**
+
+### What does that mean?
+
+A slice in Go has two key properties:
+
+* **len** → how many elements are currently in the slice
+* **cap** → how many elements it can hold *before needing to reallocate memory*
+
+So here:
+
+```go
+s := make([]int, 0, 5)
+```
+
+* `len(s)` → `0` (no elements yet)
+* `cap(s)` → `5` (space already allocated for 5 elements)
+
+### Why is this useful?
+
+It preallocates memory so that when you `append`, Go doesn’t have to keep reallocating.
+
+Example:
+
+```go
+s := make([]int, 0, 5)
+
+s = append(s, 10)
+s = append(s, 20)
+```
+
+Now:
+
+* `len(s)` → 2
+* `cap(s)` → still 5
+
+No reallocation happened yet.
+
+### When does reallocation happen?
+
+If you exceed capacity:
+
+```go
+s = append(s, 30, 40, 50, 60)
+```
+
+Now you’ve gone beyond capacity (5), so Go:
+
+* allocates a new underlying array (doubles it brother)
+* copies old elements
+
+### Key intuition
+
+Think of it like:
+
+> “Give me an empty list, but reserve space for 5 items upfront.”
+
+### Compare with other forms
+
+```go
+make([]int, 5)      // len=5, cap=5 (already filled with zero values)
+make([]int, 0, 5)   // len=0, cap=5 (empty but ready to grow)
+```
+
+---
+
+</details>
+
+<br>
+Q. Use of _ in Go everywhere
+
+
