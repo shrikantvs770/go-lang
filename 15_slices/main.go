@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"slices"
 )
 
 func main() {
@@ -18,9 +17,6 @@ func main() {
 	slices.Reverse(marks) // reverses inplace brother, marks will be changed
 	fmt.Println(marks)
 	
-
-	// array
-	// marks := [8]int{1,2,3,5,6,7,7,9}
 	fmt.Println("----------------------------------")
 	for i, val := range marks {
 		fmt.Println(i, val)

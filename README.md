@@ -1,4 +1,6 @@
 # go-lang
+https://www.notion.so/tactical-advantage/Go-33130115a66280dc94b7ccb214420b7c?source=copy_link
+
 `go mod init example.com/go-basics`
 
 ```shell
@@ -116,3 +118,107 @@ make([]int, 0, 5)   // len=0, cap=5 (empty but ready to grow)
 Q. Use of _ in Go everywhere
 
 
+<details open>
+  <summary>Multiple return values in Go</summary>
+  Absolutely! 😎 Go **loves returning multiple values**, and it’s one of its most idiomatic features. I’ll show the **cleanest and best approaches** for beginners.
+
+---
+
+## 1️⃣ Basic multiple return
+
+You can return multiple values directly from a function:
+
+```go id="6vm7tx"
+package main
+
+import "fmt"
+
+func divide(a, b int) (int, int) {
+    quotient := a / b
+    remainder := a % b
+    return quotient, remainder
+}
+
+func main() {
+    q, r := divide(17, 5)
+    fmt.Printf("Quotient: %d, Remainder: %d\n", q, r)
+}
+```
+
+✅ Output:
+
+```
+Quotient: 3, Remainder: 2
+```
+
+**Explanation:**
+
+* `(int, int)` → function returns **two integers**
+* `q, r := divide(...)` → receive multiple values
+
+---
+
+## 2️⃣ Ignoring a return value
+
+If you only care about one value, use `_` (blank identifier):
+
+```go
+q, _ := divide(17, 5) // ignore remainder
+fmt.Println("Quotient:", q)
+```
+
+---
+
+## 3️⃣ Named return values (optional but readable)
+
+You can **name the return values** in the function signature:
+
+```go
+func divide2(a, b int) (quotient int, remainder int) {
+    quotient = a / b
+    remainder = a % b
+    return // can return without specifying values explicitly
+}
+```
+
+* Makes code more **self-documenting**
+* Useful for longer functions
+
+---
+
+## 4️⃣ Returning error along with a value (idiomatic Go)
+
+Go often uses **multiple returns for errors**:
+
+```go
+func safeDivide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("cannot divide by zero")
+    }
+    return a / b, nil
+}
+
+func main() {
+    result, err := safeDivide(10, 0)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    fmt.Println("Result:", result)
+}
+```
+
+* Very idiomatic in Go
+* `value, error` pattern is everywhere in the standard library
+
+---
+
+### ✅ Best Practices
+
+1. Use multiple return values to **return value + error** or **related results**.
+2. Use `_` if you only need one value.
+3. Name returns if it improves readability for longer functions.
+4. Keep it simple — don’t return **too many values**; if >3, consider a struct.
+
+---
+</details>
