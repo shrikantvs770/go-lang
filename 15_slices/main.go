@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 )
 
 func main() {
@@ -14,6 +15,7 @@ func main() {
 	marks = append(marks, 34)
 	fmt.Println(marks)
 
+	
 	slices.Reverse(marks) // reverses inplace brother, marks will be changed
 	fmt.Println(marks)
 	

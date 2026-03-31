@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+var Quote string = "To be or not to be that's the Q." // this is ued in app.go
+// var qt = "Hey there" This can't be exported and used in app.go
+
 func Greet(name string){ // important to Capatalize, so it can be exported
 	fmt.Println("Hello"+" "+normalizeIt(name))
 }
